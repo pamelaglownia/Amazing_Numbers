@@ -25,11 +25,22 @@ public class Number {
         return number % 7 == 0 || number % 10 == 7;
     }
 
+    boolean isDuck(int number) {
+        String temp = Integer.toString(number);
+        for (int i = 1; i < temp.length(); i++) {
+            if (temp.charAt(i) == '0') {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void printProperties(int number) {
         System.out.println("Properties of " + number);
         System.out.println("\teven:\t" + isEven(number));
         System.out.println("\todd:\t" + isOdd(number));
         System.out.println("\tbuzz:\t" + isBuzzNumber(number));
+        System.out.println("\tduck:\t" + isDuck(number));
     }
 
     void checkUserNumber() {
