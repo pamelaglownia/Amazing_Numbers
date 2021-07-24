@@ -14,11 +14,11 @@ public class Number {
     }
 
     boolean isEven(int number) {
-        return number % 2 == 0;
+        return (number % 2 == 0);
     }
 
     boolean isOdd(int number) {
-        return number % 2 != 0;
+        return (number % 2 != 0);
     }
 
     boolean isBuzzNumber(int number) {
@@ -35,12 +35,26 @@ public class Number {
         return false;
     }
 
+    int createReverseOfNumber(int number) {
+        int reverse = 0;
+        while (number != 0) {
+            reverse = reverse * 10 + number % 10;
+            number /= 10;
+        }
+        return reverse;
+    }
+
+    boolean isPalindromic(int number) {
+        return createReverseOfNumber(number) == number;
+    }
+
     void printProperties(int number) {
         System.out.println("Properties of " + number);
-        System.out.println("\teven:\t" + isEven(number));
-        System.out.println("\todd:\t" + isOdd(number));
-        System.out.println("\tbuzz:\t" + isBuzzNumber(number));
-        System.out.println("\tduck:\t" + isDuck(number));
+        System.out.println("\t\teven:\t" + isEven(number));
+        System.out.println("\t\todd:\t" + isOdd(number));
+        System.out.println("\t\tbuzz:\t" + isBuzzNumber(number));
+        System.out.println("\t\tduck:\t" + isDuck(number));
+        System.out.println("palindromic:\t" + isPalindromic(number));
     }
 
     void checkUserNumber() {
