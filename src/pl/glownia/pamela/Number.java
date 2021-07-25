@@ -4,29 +4,29 @@ import java.util.Scanner;
 
 public class Number {
 
-    boolean isNatural(int number) {
-        if (number > 0) {
+    boolean isNatural(long number) {
+        if (number >= 0) {
             return true;
         } else {
-            System.out.println("This number is not natural!");
+            System.out.println("The first parameter should be a natural number or zero.");
             return false;
         }
     }
 
-    boolean isEven(int number) {
+    boolean isEven(long number) {
         return (number % 2 == 0);
     }
 
-    boolean isOdd(int number) {
+    boolean isOdd(long number) {
         return (number % 2 != 0);
     }
 
-    boolean isBuzzNumber(int number) {
+    boolean isBuzzNumber(long number) {
         return number % 7 == 0 || number % 10 == 7;
     }
 
-    boolean isDuck(int number) {
-        String temp = Integer.toString(number);
+    boolean isDuck(long number) {
+        String temp = Long.toString(number);
         for (int i = 1; i < temp.length(); i++) {
             if (temp.charAt(i) == '0') {
                 return true;
@@ -35,8 +35,8 @@ public class Number {
         return false;
     }
 
-    int createReverseOfNumber(int number) {
-        int reverse = 0;
+    long createReverseOfNumber(long number) {
+        long reverse = 0L;
         while (number != 0) {
             reverse = reverse * 10 + number % 10;
             number /= 10;
@@ -44,11 +44,11 @@ public class Number {
         return reverse;
     }
 
-    boolean isPalindromic(int number) {
+    boolean isPalindromic(long number) {
         return createReverseOfNumber(number) == number;
     }
 
-    void printProperties(int number) {
+    void printProperties(long number) {
         System.out.println("Properties of " + number);
         System.out.println("\t\teven:\t" + isEven(number));
         System.out.println("\t\todd:\t" + isOdd(number));
@@ -59,10 +59,27 @@ public class Number {
 
     void checkUserNumber() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter a natural number:");
-        int number = scan.nextInt();
-        if (isNatural(number)) {
-            printProperties(number);
+        System.out.print("Enter a request: ");
+        long number = scan.nextLong();
+        while (number != 0L) {
+            if (isNatural(number)) {
+                printProperties(number);
+            }
+            System.out.print("Enter a request: ");
+            number = scan.nextLong();
         }
+        System.out.println("Goodbye!");
+    }
+
+    void printWelcome() {
+        System.out.println("Welcome to Amazing Numbers!");
+        System.out.println("Supported requests:");
+        System.out.println("- enter a natural number to know its properties,");
+        System.out.println("- enter 0 to exit.");
+    }
+
+    void run() {
+        printWelcome();
+        checkUserNumber();
     }
 }
