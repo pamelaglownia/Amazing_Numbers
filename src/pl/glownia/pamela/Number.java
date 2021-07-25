@@ -48,13 +48,27 @@ public class Number {
         return createReverseOfNumber(number) == number;
     }
 
+    boolean isGapful(long number) {
+        if (number >= 100) {
+            String temp = Long.toString(number);
+            long firstDigit = Character.getNumericValue(temp.charAt(0));
+            long secondDigit = Character.getNumericValue(temp.charAt(temp.length() - 1));
+            long divisor = firstDigit * 10 + secondDigit;
+            return number % divisor == 0;
+        }
+        return false;
+    }
+
+
     void printProperties(long number) {
         System.out.println("Properties of " + number);
-        System.out.println("\t\teven:\t" + isEven(number));
-        System.out.println("\t\todd:\t" + isOdd(number));
-        System.out.println("\t\tbuzz:\t" + isBuzzNumber(number));
-        System.out.println("\t\tduck:\t" + isDuck(number));
-        System.out.println("palindromic:\t" + isPalindromic(number));
+        System.out.println("even:\t\t" + isEven(number));
+        System.out.println("odd:\t\t" + isOdd(number));
+        System.out.println("buzz:\t\t" + isBuzzNumber(number));
+        System.out.println("duck:\t\t" + isDuck(number));
+        System.out.println("palindromic: " + isPalindromic(number));
+        System.out.println("gapful:\t\t" + isGapful(number));
+
     }
 
     void checkUserNumber() {
