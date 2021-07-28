@@ -121,49 +121,52 @@ public class Number implements PrintableProperties {
     @Override
     public void printProperties(long beginNumber, long counter, String userProperty) {
         boolean rightProperty = false;
+        if (!(isNatural(counter))) {
+            System.out.println("Second parameter should be a natural number");
+        }
         if (isNatural(beginNumber) && isNatural(counter)) {
             String[] array = {"buzz", "duck", "palindromic", "gapful", "spy", "even", "odd"};
-            for (int j = 0; j < array.length; j++) {
-                if (userProperty.equals(array[j])) {
+            for (String element : array) {
+                if (userProperty.equalsIgnoreCase(element)) {
                     rightProperty = true;
-                    for (long i = beginNumber; i < beginNumber + counter; i++) {
-                        switch (userProperty) {
-                            case "buzz":
-                                if (isBuzzNumber(i)) {
-                                    printShortProperties(i);
-                                }
-                                break;
-                            case "duck":
-                                if (isDuck(i)) {
-                                    printShortProperties(i);
-                                }
-                                break;
-                            case "palindromic":
-                                if (isPalindromic(i)) {
-                                    printShortProperties(i);
-                                }
-                                break;
-                            case "gapful":
-                                if (isGapful(i)) {
-                                    printShortProperties(i);
-                                }
-                                break;
-                            case "spy":
-                                if (isSpy(i)) {
-                                    printShortProperties(i);
-                                }
-                                break;
-                            case "even":
-                                if (isEven(i)) {
-                                    printShortProperties(i);
-                                }
-                                break;
-                            case "odd":
-                                if (isOdd(i)) {
-                                    printShortProperties(i);
-                                }
-                                break;
+                    while (counter > 0) {
+                        if (element.equalsIgnoreCase("buzz")) {
+                            if (isBuzzNumber(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                        } else if (element.equalsIgnoreCase("duck")) {
+                            if (isDuck(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                        } else if (element.equalsIgnoreCase("palindromic")) {
+                            if (isPalindromic(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                        } else if (element.equalsIgnoreCase("gapful")) {
+                            if (isGapful(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                        } else if (element.equalsIgnoreCase("spy")) {
+                            if (isSpy(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                        } else if (element.equalsIgnoreCase("even")) {
+                            if (isEven(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                        } else if (element.equalsIgnoreCase("odd")) {
+                            if (isOdd(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
                         }
+                        beginNumber++;
                     }
                 }
             }
