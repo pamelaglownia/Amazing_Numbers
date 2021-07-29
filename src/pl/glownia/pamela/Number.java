@@ -1,6 +1,5 @@
 package pl.glownia.pamela;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Number implements PrintableProperties {
@@ -84,36 +83,13 @@ public class Number implements PrintableProperties {
             System.out.println("gapful:\t" + isGapful(number));
             System.out.println("spy:\t" + isSpy(number));
         }
-
     }
 
     @Override
     public void printProperties(long beginNumber, long counter) {
         if (isNatural(beginNumber) && isNatural(counter)) {
             for (long i = beginNumber; i < beginNumber + counter; i++) {
-                System.out.print(i + " is ");
-                if (isEven(i)) {
-                    System.out.print("even");
-                }
-                if (isOdd(i)) {
-                    System.out.print("odd");
-                }
-                if (isBuzzNumber(i)) {
-                    System.out.print(", buzz ");
-                }
-                if (isDuck(i)) {
-                    System.out.print(", duck");
-                }
-                if (isPalindromic(i)) {
-                    System.out.print(", palindromic");
-                }
-                if (isGapful(i)) {
-                    System.out.print(", gapful");
-                }
-                if (isSpy(i)) {
-                    System.out.print(", spy");
-                }
-                System.out.println();
+                printShortProperties(i);
             }
         }
     }
@@ -125,53 +101,63 @@ public class Number implements PrintableProperties {
             System.out.println("Second parameter should be a natural number");
         }
         if (isNatural(beginNumber) && isNatural(counter)) {
-            String[] array = {"buzz", "duck", "palindromic", "gapful", "spy", "even", "odd"};
-            for (String element : array) {
-                if (userProperty.equalsIgnoreCase(element)) {
+            for (Properties prop : Properties.values()) {
+                if (prop.equals(userProperty)) {
                     rightProperty = true;
                     while (counter > 0) {
-                        if (element.equalsIgnoreCase("buzz")) {
-                            if (isBuzzNumber(beginNumber)) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
-                        } else if (element.equalsIgnoreCase("duck")) {
-                            if (isDuck(beginNumber)) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
-                        } else if (element.equalsIgnoreCase("palindromic")) {
-                            if (isPalindromic(beginNumber)) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
-                        } else if (element.equalsIgnoreCase("gapful")) {
-                            if (isGapful(beginNumber)) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
-                        } else if (element.equalsIgnoreCase("spy")) {
-                            if (isSpy(beginNumber)) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
-                        } else if (element.equalsIgnoreCase("even")) {
-                            if (isEven(beginNumber)) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
-                        } else if (element.equalsIgnoreCase("odd")) {
-                            if (isOdd(beginNumber)) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
+                        switch (prop) {
+                            case BUZZ:
+                                if (isBuzzNumber(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
+                            case DUCK:
+                                if (isDuck(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
+                            case PALINDROMIC:
+                                if (isPalindromic(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
+                            case GAPFUL:
+                                if (isGapful(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
+
+                            case SPY:
+                                if (isSpy(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
+
+                            case EVEN:
+                                if (isEven(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
+
+                            case ODD:
+                                if (isOdd(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
                         }
                         beginNumber++;
                     }
                 }
             }
             if (!rightProperty) {
-                System.out.println("The property [" + userProperty + "] is wrong.\nAvailable properties: " + Arrays.toString(array));
+                System.out.println("The property [" + userProperty + "] is wrong.\nAvailable properties: buzz, duck, palindromic, gapful, spy, even, odd");
             }
         }
     }
