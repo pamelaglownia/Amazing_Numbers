@@ -71,6 +71,15 @@ public class Number implements PrintableProperties {
         return product == sum;
     }
 
+    static boolean isPerfectSquare(double x) {
+        double squareRoot = Math.sqrt(x);
+        return (squareRoot - Math.floor(squareRoot)) == 0;
+    }
+
+    static boolean isSunny(long number) {
+        return isPerfectSquare(number + 1);
+    }
+
     @Override
     public void printProperties(long number) {
         if (isNatural(number)) {
@@ -82,6 +91,7 @@ public class Number implements PrintableProperties {
             System.out.println("palindromic:" + isPalindromic(number));
             System.out.println("gapful:\t" + isGapful(number));
             System.out.println("spy:\t" + isSpy(number));
+            System.out.println("sunny:\t" + isSunny(number));
         }
     }
 
@@ -151,13 +161,19 @@ public class Number implements PrintableProperties {
                                     counter--;
                                 }
                                 break;
+                            case SUNNY:
+                                if (isSunny(beginNumber)) {
+                                    printShortProperties(beginNumber);
+                                    counter--;
+                                }
+                                break;
                         }
                         beginNumber++;
                     }
                 }
             }
             if (!rightProperty) {
-                System.out.println("The property [" + userProperty + "] is wrong.\nAvailable properties: buzz, duck, palindromic, gapful, spy, even, odd");
+                System.out.println("The property [" + userProperty + "] is wrong.\nAvailable properties: buzz, duck, palindromic, gapful, spy, even, odd, sunny");
             }
         }
     }
@@ -184,6 +200,9 @@ public class Number implements PrintableProperties {
         }
         if (isSpy(number)) {
             System.out.print(", spy");
+        }
+        if (isSunny(number)) {
+            System.out.print(", sunny");
         }
         System.out.println();
     }
