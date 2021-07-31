@@ -8,4 +8,6 @@ public interface PrintableProperties {
 
     void printProperties(long beginNumber, long counter, String userProperty);
 
+    void printProperties(long beginNumber, long counter, String firstProperty, String secondProperty);
+
 }

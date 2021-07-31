@@ -18,19 +18,43 @@ public class Printer implements PrintableProperties {
                 printWelcome();
             } else if (userNumber.contains(" ")) {
                 String[] array = userNumber.split(" ");
-                if (array.length == 2) {
+                if (array.length > 1) {
                     long beginNumber = calculator.takeNumber(array, 0);
+                    if (!(calculator.isNatural(beginNumber))) {
+                        System.out.println("The first parameter should be a natural number or zero. ");
+                        break;
+                    }
                     long counter = calculator.takeNumber(array, 1);
-                    printProperties(beginNumber, counter);
-                } else {
-                    long beginNumber = calculator.takeNumber(array, 0);
-                    long counter = calculator.takeNumber(array, 1);
-                    String property = calculator.takeProperty(array, 2);
-                    printProperties(beginNumber, counter, property);
+                    if (!(calculator.isNatural(counter))) {
+                        System.out.println("The second parameter should be a natural number or zero. ");
+                        break;
+                    }
+
+                    if (array.length >= 3) {
+                        String firstUserProperty = calculator.takeProperty(array, 2);
+                        Properties.checkIfContainsProps(firstUserProperty);
+                        if (array.length == 4) {
+                            String secondUserProperty = calculator.takeProperty(array, 3);
+                            if (Properties.checkIfContainsProps(secondUserProperty)) {
+                                printProperties(beginNumber, counter, firstUserProperty, secondUserProperty);
+                            }
+                        } else {
+                            if (Properties.checkIfContainsProps(firstUserProperty)) {
+                                printProperties(beginNumber, counter, firstUserProperty);
+                            }
+
+                        }
+                    } else {
+                        printProperties(beginNumber, counter);
+                    }
                 }
             } else {
                 long number = Long.parseLong(userNumber);
-                printProperties(number);
+                if (!(calculator.isNatural(number))) {
+                    System.out.println("The first parameter should be a natural number or zero. ");
+                } else {
+                    printProperties(number);
+                }
             }
             System.out.print("Enter a request: ");
             userNumber = scan.nextLine();
@@ -52,129 +76,105 @@ public class Printer implements PrintableProperties {
 
     @Override
     public void printProperties(long number) {
-        if (calculator.isNatural(number)) {
-            System.out.println("Properties of " + number);
-            System.out.println("even:\t" + calculator.isEven(number));
-            System.out.println("odd:\t" + calculator.isOdd(number));
-            System.out.println("buzz:\t" + calculator.isBuzzNumber(number));
-            System.out.println("duck:\t" + calculator.isDuck(number));
-            System.out.println("palindromic:" + calculator.isPalindromic(number));
-            System.out.println("gapful:\t" + calculator.isGapful(number));
-            System.out.println("spy:\t" + calculator.isSpy(number));
-            System.out.println("sunny:\t" + calculator.isSunny(number));
-        }
+        System.out.println("Properties of " + number);
+        System.out.println("even:\t" + calculator.isEven(number));
+        System.out.println("odd:\t" + calculator.isOdd(number));
+        System.out.println("buzz:\t" + calculator.isBuzzNumber(number));
+        System.out.println("duck:\t" + calculator.isDuck(number));
+        System.out.println("palindromic:" + calculator.isPalindromic(number));
+        System.out.println("gapful:\t" + calculator.isGapful(number));
+        System.out.println("spy:\t" + calculator.isSpy(number));
+        System.out.println("sunny:\t" + calculator.isSunny(number));
     }
 
     @Override
     public void printProperties(long beginNumber, long counter) {
-        if (calculator.isNatural(beginNumber) && calculator.isNatural(counter)) {
-            for (long i = beginNumber; i < beginNumber + counter; i++) {
-                printShortProperties(i);
-            }
+        for (long i = beginNumber; i < beginNumber + counter; i++) {
+            printShortProperties(i);
         }
     }
 
     @Override
     public void printProperties(long beginNumber, long counter, String userProperty) {
-        boolean rightProperty = false;
-        if (!(calculator.isNatural(counter))) {
-            System.out.println("Second parameter should be a natural number");
-        }
-        if (calculator.isNatural(beginNumber) && calculator.isNatural(counter)) {
-            for (Properties prop : Properties.values()) {
-                if (prop.equals(userProperty)) {
-                    rightProperty = true;
-                    while (counter > 0) {
-                        switch (prop) {
-                            case BUZZ:
-                                if (calculator.isBuzzNumber(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
-                            case DUCK:
-                                if (calculator.isDuck(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
-                            case PALINDROMIC:
-                                if (calculator.isPalindromic(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
-                            case GAPFUL:
-                                if (calculator.isGapful(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
+        for (Properties prop : Properties.values()) {
+            if (prop.equals(userProperty)) {
+                while (counter > 0) {
+                    switch (prop) {
+                        case BUZZ:
+                            if (calculator.isBuzzNumber(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
+                        case DUCK:
+                            if (calculator.isDuck(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
+                        case PALINDROMIC:
+                            if (calculator.isPalindromic(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
+                        case GAPFUL:
+                            if (calculator.isGapful(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
 
-                            case SPY:
-                                if (calculator.isSpy(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
+                        case SPY:
+                            if (calculator.isSpy(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
 
-                            case EVEN:
-                                if (calculator.isEven(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
+                        case EVEN:
+                            if (calculator.isEven(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
 
-                            case ODD:
-                                if (calculator.isOdd(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
-                            case SUNNY:
-                                if (calculator.isSunny(beginNumber)) {
-                                    printShortProperties(beginNumber);
-                                    counter--;
-                                }
-                                break;
-                        }
-                        beginNumber++;
+                        case ODD:
+                            if (calculator.isOdd(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
+                        case SUNNY:
+                            if (calculator.isSunny(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
                     }
+                    beginNumber++;
                 }
-            }
-            if (!rightProperty) {
-                System.out.println("The property [" + userProperty + "] is wrong.\nAvailable properties: buzz, duck, palindromic, gapful, spy, even, odd, sunny");
             }
         }
     }
 
+    @Override
+    public void printProperties(long beginNumber, long counter, String firstProperty, String secondProperty) {
+//to be continued...
+    }
+
     void printShortProperties(long number) {
-        System.out.print(number + " is ");
-        if (calculator.isEven(number)) {
-            System.out.print("even");
-        }
-        if (calculator.isOdd(number)) {
-            System.out.print("odd");
-        }
-        if (calculator.isBuzzNumber(number)) {
-            System.out.print(", buzz ");
-        }
-        if (calculator.isDuck(number)) {
-            System.out.print(", duck");
-        }
-        if (calculator.isPalindromic(number)) {
-            System.out.print(", palindromic");
-        }
-        if (calculator.isGapful(number)) {
-            System.out.print(", gapful");
-        }
-        if (calculator.isSpy(number)) {
-            System.out.print(", spy");
-        }
-        if (calculator.isSunny(number)) {
-            System.out.print(", sunny");
-        }
-        System.out.println();
+        //using ternary operator  (booleanExpression ? expression1 : expression2) => condensed if statement
+        StringBuilder numberProperties = new StringBuilder(number + " is ");
+        numberProperties.append(calculator.isEven(number) ? "even" : "");
+        numberProperties.append(calculator.isOdd(number) ? " odd" : "");
+        numberProperties.append(calculator.isBuzzNumber(number) ? ", buzz" : "");
+        numberProperties.append(calculator.isDuck(number) ? ", duck" : "");
+        numberProperties.append(calculator.isPalindromic(number) ? ", palindromic" : "");
+        numberProperties.append(calculator.isGapful(number) ? ", gapful" : "");
+        numberProperties.append(calculator.isSpy(number) ? ", spy" : "");
+        numberProperties.append(calculator.isSunny(number) ? ", sunny" : "");
+        System.out.println(numberProperties);
     }
 
     void run() {

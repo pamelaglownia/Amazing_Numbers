@@ -6,7 +6,6 @@ public class Calculator {
         if (number >= 0) {
             return true;
         } else {
-            System.out.println("The parameters should be a natural number or zero.");
             return false;
         }
     }
