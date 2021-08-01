@@ -2,6 +2,7 @@ package pl.glownia.pamela;
 
 import java.util.Scanner;
 
+
 public class Printer implements PrintableProperties {
     Calculator calculator;
 
@@ -22,17 +23,17 @@ public class Printer implements PrintableProperties {
                     long beginNumber = calculator.takeNumber(array, 0);
                     if (!(calculator.isNatural(beginNumber))) {
                         System.out.println("The first parameter should be a natural number or zero. ");
-                        break;
                     }
                     long counter = calculator.takeNumber(array, 1);
                     if (!(calculator.isNatural(counter))) {
                         System.out.println("The second parameter should be a natural number or zero. ");
-                        break;
+
                     }
+
                     if (array.length >= 3) {
                         String firstUserProperty = calculator.takeProperty(array, 2);
                         if (array.length == 3 && !(Properties.checkIfContainsProps(firstUserProperty))) {
-                            System.out.println("The property [" + firstUserProperty.toUpperCase() + "] is wrong.\nAvailable properties: buzz, duck, palindromic, gapful, spy, even, odd, square, sunny");
+                            System.out.println("The property [" + firstUserProperty.toUpperCase() + "] is wrong.\nAvailable properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY]");
                         }
                         if (array.length == 4) {
                             String secondUserProperty = calculator.takeProperty(array, 3);
@@ -72,7 +73,7 @@ public class Printer implements PrintableProperties {
         System.out.println("- enter two natural numbers to obtain the properties of the list:");
         System.out.println("\t *the first parameter represents a starting number;");
         System.out.println("\t *the second parameter shows how many consecutive numbers are to be printed;");
-        System.out.println("- two natural numbers and a property to search for;");
+        System.out.println("- two natural numbers and two properties to search for");
         System.out.println("- separate the parameters with one space;");
         System.out.println("- enter 0 to exit.");
     }
@@ -96,6 +97,65 @@ public class Printer implements PrintableProperties {
         for (long i = beginNumber; i < beginNumber + counter; i++) {
             printShortProperties(i);
         }
+    }
+
+    boolean checkPropertiesToPrint(long beginNumber, String userProperty) {
+        for (Properties prop : Properties.values()) {
+            if (prop.equals(userProperty)) {
+                switch (prop) {
+                    case BUZZ:
+                        if (calculator.isBuzzNumber(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                    case DUCK:
+                        if (calculator.isDuck(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                    case PALINDROMIC:
+                        if (calculator.isPalindromic(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                    case GAPFUL:
+                        if (calculator.isGapful(beginNumber)) {
+                            return true;
+                        }
+                        break;
+
+                    case SPY:
+                        if (calculator.isSpy(beginNumber)) {
+                            return true;
+                        }
+                        break;
+
+                    case EVEN:
+                        if (calculator.isEven(beginNumber)) {
+                            return true;
+                        }
+                        break;
+
+                    case ODD:
+                        if (calculator.isOdd(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                    case SQUARE:
+                        if (calculator.isPerfectSquare(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                    case SUNNY:
+                        if (calculator.isSunny(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                }
+
+            }
+        }
+        return false;
     }
 
     @Override
@@ -173,8 +233,16 @@ public class Printer implements PrintableProperties {
         if (firstProperty.equalsIgnoreCase(secondProperty)) {
             printProperties(beginNumber, counter, firstProperty);
         }
-        if (Properties.ODD.equals(firstProperty) && Properties.EVEN.equals(secondProperty) || Properties.DUCK.equals(firstProperty) && Properties.SPY.equals(secondProperty) || Properties.SUNNY.equals(firstProperty) && Properties.SQUARE.equals(secondProperty)) {
+        if (Properties.ODD.equals(firstProperty) && Properties.EVEN.equals(secondProperty) ||Properties.EVEN.equals(firstProperty) && Properties.ODD.equals(secondProperty) || Properties.DUCK.equals(firstProperty) && Properties.SPY.equals(secondProperty)||Properties.SPY.equals(firstProperty) && Properties.DUCK.equals(secondProperty) || Properties.SUNNY.equals(firstProperty) && Properties.SQUARE.equals(secondProperty)||Properties.SQUARE.equals(firstProperty) && Properties.SUNNY.equals(secondProperty)) {
             System.out.println("The request contains mutually exclusive properties:[" + firstProperty + ", " + secondProperty + "]\nThere are no numbers with these properties.");
+        } else {
+            while (counter > 0) {
+                if (checkPropertiesToPrint(beginNumber, firstProperty) && checkPropertiesToPrint(beginNumber, secondProperty)) {
+                    printShortProperties(beginNumber);
+                    counter--;
+                }
+                beginNumber++;
+            }
         }
     }
 
