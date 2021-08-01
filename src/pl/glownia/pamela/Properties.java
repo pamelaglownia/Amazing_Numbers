@@ -1,7 +1,7 @@
 package pl.glownia.pamela;
 
 public enum Properties {
-    BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, EVEN, ODD, SUNNY;
+    BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, EVEN, ODD, SQUARE, SUNNY;
 
     boolean equals(String userProperty) {
         return this.name().equalsIgnoreCase(userProperty);
@@ -15,11 +15,9 @@ public enum Properties {
             }
         }
         if (counter == Properties.values().length) {
-            System.out.println("The property [" + userProperty + "] is wrong.\nAvailable properties: buzz, duck, palindromic, gapful, spy, even, odd, sunny");
             return false;
         } else {
             return true;
-
         }
     }
 }

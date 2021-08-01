@@ -29,20 +29,23 @@ public class Printer implements PrintableProperties {
                         System.out.println("The second parameter should be a natural number or zero. ");
                         break;
                     }
-
                     if (array.length >= 3) {
                         String firstUserProperty = calculator.takeProperty(array, 2);
-                        Properties.checkIfContainsProps(firstUserProperty);
+                        if (array.length == 3 && !(Properties.checkIfContainsProps(firstUserProperty))) {
+                            System.out.println("The property [" + firstUserProperty.toUpperCase() + "] is wrong.\nAvailable properties: buzz, duck, palindromic, gapful, spy, even, odd, square, sunny");
+                        }
                         if (array.length == 4) {
                             String secondUserProperty = calculator.takeProperty(array, 3);
-                            if (Properties.checkIfContainsProps(secondUserProperty)) {
+                            if (!(Properties.checkIfContainsProps(firstUserProperty) && Properties.checkIfContainsProps(secondUserProperty))) {
+                                System.out.println("The properties [" + firstUserProperty.toUpperCase() + "," + secondUserProperty.toUpperCase() + "] are wrong.\n" +
+                                        "Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY]");
+                            } else if (Properties.checkIfContainsProps(secondUserProperty)) {
                                 printProperties(beginNumber, counter, firstUserProperty, secondUserProperty);
                             }
                         } else {
                             if (Properties.checkIfContainsProps(firstUserProperty)) {
                                 printProperties(beginNumber, counter, firstUserProperty);
                             }
-
                         }
                     } else {
                         printProperties(beginNumber, counter);
@@ -84,6 +87,7 @@ public class Printer implements PrintableProperties {
         System.out.println("palindromic:" + calculator.isPalindromic(number));
         System.out.println("gapful:\t" + calculator.isGapful(number));
         System.out.println("spy:\t" + calculator.isSpy(number));
+        System.out.println("square:\t" + calculator.isPerfectSquare(number));
         System.out.println("sunny:\t" + calculator.isSunny(number));
     }
 
@@ -145,6 +149,12 @@ public class Printer implements PrintableProperties {
                                 counter--;
                             }
                             break;
+                        case SQUARE:
+                            if (calculator.isPerfectSquare(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
                         case SUNNY:
                             if (calculator.isSunny(beginNumber)) {
                                 printShortProperties(beginNumber);
@@ -160,7 +170,12 @@ public class Printer implements PrintableProperties {
 
     @Override
     public void printProperties(long beginNumber, long counter, String firstProperty, String secondProperty) {
-//to be continued...
+        if (firstProperty.equalsIgnoreCase(secondProperty)) {
+            printProperties(beginNumber, counter, firstProperty);
+        }
+        if (Properties.ODD.equals(firstProperty) && Properties.EVEN.equals(secondProperty) || Properties.DUCK.equals(firstProperty) && Properties.SPY.equals(secondProperty) || Properties.SUNNY.equals(firstProperty) && Properties.SQUARE.equals(secondProperty)) {
+            System.out.println("The request contains mutually exclusive properties:[" + firstProperty + ", " + secondProperty + "]\nThere are no numbers with these properties.");
+        }
     }
 
     void printShortProperties(long number) {
@@ -173,6 +188,7 @@ public class Printer implements PrintableProperties {
         numberProperties.append(calculator.isPalindromic(number) ? ", palindromic" : "");
         numberProperties.append(calculator.isGapful(number) ? ", gapful" : "");
         numberProperties.append(calculator.isSpy(number) ? ", spy" : "");
+        numberProperties.append(calculator.isPerfectSquare(number) ? ", square" : "");
         numberProperties.append(calculator.isSunny(number) ? ", sunny" : "");
         System.out.println(numberProperties);
     }
