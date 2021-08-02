@@ -77,6 +77,20 @@ public class Calculator {
         return isPerfectSquare(number + 1);
     }
 
+    boolean isJumping(long number) {
+        while (number != 0) {
+            long firstDigit = number % 10;
+            number /= 10;
+            if (number != 0) {
+                long secondDigit = number % 10;
+                if (Math.abs(firstDigit - secondDigit) != 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     long takeNumber(String[] array, int index) {
         return Long.parseLong(array[index]);
     }

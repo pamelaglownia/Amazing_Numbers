@@ -33,13 +33,13 @@ public class Printer implements PrintableProperties {
                     if (array.length >= 3) {
                         String firstUserProperty = calculator.takeProperty(array, 2);
                         if (array.length == 3 && !(Properties.checkIfContainsProps(firstUserProperty))) {
-                            System.out.println("The property [" + firstUserProperty.toUpperCase() + "] is wrong.\nAvailable properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY]");
+                            System.out.println("The property [" + firstUserProperty.toUpperCase() + "] is wrong.\nAvailable properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
                         }
                         if (array.length == 4) {
                             String secondUserProperty = calculator.takeProperty(array, 3);
                             if (!(Properties.checkIfContainsProps(firstUserProperty) && Properties.checkIfContainsProps(secondUserProperty))) {
                                 System.out.println("The properties [" + firstUserProperty.toUpperCase() + "," + secondUserProperty.toUpperCase() + "] are wrong.\n" +
-                                        "Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY]");
+                                        "Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
                             } else if (Properties.checkIfContainsProps(secondUserProperty)) {
                                 printProperties(beginNumber, counter, firstUserProperty, secondUserProperty);
                             }
@@ -90,6 +90,7 @@ public class Printer implements PrintableProperties {
         System.out.println("spy:\t" + calculator.isSpy(number));
         System.out.println("square:\t" + calculator.isPerfectSquare(number));
         System.out.println("sunny:\t" + calculator.isSunny(number));
+        System.out.println("jumping:\t" + calculator.isJumping(number));
     }
 
     @Override
@@ -148,6 +149,11 @@ public class Printer implements PrintableProperties {
                         break;
                     case SUNNY:
                         if (calculator.isSunny(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                    case JUMPING:
+                        if (calculator.isJumping(beginNumber)) {
                             return true;
                         }
                         break;
@@ -221,6 +227,12 @@ public class Printer implements PrintableProperties {
                                 counter--;
                             }
                             break;
+                        case JUMPING:
+                            if (calculator.isJumping(beginNumber)) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            break;
                     }
                     beginNumber++;
                 }
@@ -233,7 +245,7 @@ public class Printer implements PrintableProperties {
         if (firstProperty.equalsIgnoreCase(secondProperty)) {
             printProperties(beginNumber, counter, firstProperty);
         }
-        if (Properties.ODD.equals(firstProperty) && Properties.EVEN.equals(secondProperty) ||Properties.EVEN.equals(firstProperty) && Properties.ODD.equals(secondProperty) || Properties.DUCK.equals(firstProperty) && Properties.SPY.equals(secondProperty)||Properties.SPY.equals(firstProperty) && Properties.DUCK.equals(secondProperty) || Properties.SUNNY.equals(firstProperty) && Properties.SQUARE.equals(secondProperty)||Properties.SQUARE.equals(firstProperty) && Properties.SUNNY.equals(secondProperty)) {
+        if (Properties.ODD.equals(firstProperty) && Properties.EVEN.equals(secondProperty) || Properties.EVEN.equals(firstProperty) && Properties.ODD.equals(secondProperty) || Properties.DUCK.equals(firstProperty) && Properties.SPY.equals(secondProperty) || Properties.SPY.equals(firstProperty) && Properties.DUCK.equals(secondProperty) || Properties.SUNNY.equals(firstProperty) && Properties.SQUARE.equals(secondProperty) || Properties.SQUARE.equals(firstProperty) && Properties.SUNNY.equals(secondProperty)) {
             System.out.println("The request contains mutually exclusive properties:[" + firstProperty + ", " + secondProperty + "]\nThere are no numbers with these properties.");
         } else {
             while (counter > 0) {
@@ -258,6 +270,7 @@ public class Printer implements PrintableProperties {
         numberProperties.append(calculator.isSpy(number) ? ", spy" : "");
         numberProperties.append(calculator.isPerfectSquare(number) ? ", square" : "");
         numberProperties.append(calculator.isSunny(number) ? ", sunny" : "");
+        numberProperties.append(calculator.isJumping(number) ? ", jumping" : "");
         System.out.println(numberProperties);
     }
 
