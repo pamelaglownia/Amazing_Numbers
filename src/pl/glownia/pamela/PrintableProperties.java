@@ -6,8 +6,6 @@ public interface PrintableProperties {
 
     void printProperties(long beginNumber, long counter);
 
-    void printProperties(long beginNumber, long counter, String userProperty);
-
-    void printProperties(long beginNumber, long counter, String firstProperty, String secondProperty);
+    void printProperties(String[] array);
 
 }
