@@ -1,5 +1,6 @@
 package pl.glownia.pamela;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Printer implements PrintableProperties {
@@ -19,6 +20,7 @@ public class Printer implements PrintableProperties {
             } else if (userNumber.contains(" ")) {
                 String[] array = userNumber.split(" ");
                 printProperties(array);
+
             } else {
                 long number = Long.parseLong(userNumber);
                 if (!(calculator.isNatural(number))) {
@@ -67,7 +69,7 @@ public class Printer implements PrintableProperties {
         }
     }
 
-    boolean checkPropertiesToPrint(long beginNumber, String userProperty) {
+    boolean checkRightPropertiesToPrint(long beginNumber, String userProperty) {
         for (Properties prop : Properties.values()) {
             if (prop.equals(userProperty)) {
                 switch (prop) {
@@ -125,12 +127,33 @@ public class Printer implements PrintableProperties {
                         }
                         break;
                 }
-
             }
         }
         return false;
     }
 
+    boolean isWrongProperty(String userChoice) {
+        int counter = 0;
+        for (Properties prop : Properties.values()) {
+            if (!(prop.equals(userChoice))) {
+                counter += 1;
+            }
+        }
+        return counter == Properties.values().length;
+    }
+
+    void printWrongProperties(ArrayList<String> wrongProperties) {
+        if (wrongProperties.size() == 1) {
+            System.out.println("The property [" + wrongProperties.get(0) + "] is wrong.");
+        } else if (wrongProperties.size() > 1) {
+            System.out.print("The properties: [");
+            for (String wrongProperty : wrongProperties) {
+                System.out.print(wrongProperty + " ");
+            }
+            System.out.print("] are wrong.");
+        }
+        System.out.println(" Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
+    }
 
     @Override
     public void printProperties(String[] array) {
@@ -146,23 +169,32 @@ public class Printer implements PrintableProperties {
                 printProperties(beginNumber, counter);
             } else if (array.length > 2) {
                 while (counter > 0) {
-                    boolean flag = false;
+                    boolean flag;
                     int arrayElements = array.length - 2;
                     int countProps = 0;
+                    ArrayList<String> wrongProperties = new ArrayList<>();
                     for (int j = 2; j < array.length; j++) {
                         String userChoice = calculator.takeProperty(array, j);
-                        if (checkPropertiesToPrint(beginNumber, userChoice)) {
-                            countProps += 1;
-                            flag = true;
+                        if (isWrongProperty(userChoice)) {
+                            wrongProperties.add(userChoice);
                         } else {
-                            flag = false;
+                            if (checkRightPropertiesToPrint(beginNumber, userChoice)) {
+                                countProps += 1;
+                                flag = true;
+                            } else {
+                                flag = false;
+                            }
+                            if (flag && arrayElements == countProps) {
+                                printShortProperties(beginNumber);
+                                counter--;
+                            }
+                            beginNumber++;
                         }
                     }
-                    if (flag && arrayElements == countProps) {
-                        printShortProperties(beginNumber);
-                        counter--;
+                    if (wrongProperties.size() >= 1) {
+                        printWrongProperties(wrongProperties);
+                        break;
                     }
-                    beginNumber++;
                 }
             }
         }
