@@ -142,6 +142,20 @@ public class Printer implements PrintableProperties {
         return counter == Properties.values().length;
     }
 
+    boolean isMutuallyExclusive(String userChoice, String[] array) {
+        String mutuallyExclusive = null;
+        for (int i = 3; i < array.length; i++) {
+            if (Properties.ODD.equals(userChoice) && Properties.EVEN.equals(array[i]) || Properties.EVEN.equals(userChoice) && Properties.ODD.equals(array[i]) || Properties.DUCK.equals(userChoice) && Properties.SPY.equals(array[i]) || Properties.SPY.equals(userChoice) && Properties.DUCK.equals(array[i]) || Properties.SUNNY.equals(userChoice) && Properties.SQUARE.equals(array[i]) || Properties.SQUARE.equals(userChoice) && Properties.SUNNY.equals(array[i])) {
+                mutuallyExclusive = array[i];
+            }
+        }
+        if (mutuallyExclusive != null) {
+            System.out.println("The request contains mutually exclusive properties:[" + userChoice + ", " + mutuallyExclusive + "]\nThere are no numbers with these properties.");
+            return true;
+        }
+        return false;
+    }
+
     void printWrongProperties(ArrayList<String> wrongProperties) {
         if (wrongProperties.size() == 1) {
             System.out.println("The property [" + wrongProperties.get(0) + "] is wrong.");
@@ -170,6 +184,7 @@ public class Printer implements PrintableProperties {
             } else if (array.length > 2) {
                 while (counter > 0) {
                     boolean flag;
+                    boolean mutuallyExclusive = false;
                     int arrayElements = array.length - 2;
                     int countProps = 0;
                     ArrayList<String> wrongProperties = new ArrayList<>();
@@ -177,6 +192,10 @@ public class Printer implements PrintableProperties {
                         String userChoice = calculator.takeProperty(array, j);
                         if (isWrongProperty(userChoice)) {
                             wrongProperties.add(userChoice);
+                        } else if (array.length >= 4) {
+                            if (isMutuallyExclusive(userChoice, array)) {
+                                mutuallyExclusive = true;
+                            }
                         } else {
                             if (checkRightPropertiesToPrint(beginNumber, userChoice)) {
                                 countProps += 1;
@@ -193,6 +212,8 @@ public class Printer implements PrintableProperties {
                     }
                     if (wrongProperties.size() >= 1) {
                         printWrongProperties(wrongProperties);
+                        break;
+                    } else if (mutuallyExclusive){
                         break;
                     }
                 }
