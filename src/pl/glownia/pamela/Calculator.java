@@ -87,6 +87,34 @@ public class Calculator {
         return true;
     }
 
+    long sumToCheckIfNumberIsHappy(long number) {
+        long digit;
+        long sum= 0;
+        while (number > 0) {
+            digit = number % 10;
+            sum += (long) Math.pow(digit, 2);
+            number/=10;
+            }
+        return sum;
+    }
+
+    boolean isHappy(long number){
+        long digit=number;
+        while(digit !=1 && digit!=4){
+           digit = sumToCheckIfNumberIsHappy(digit);
+        }
+        if(digit==1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    boolean isSad(long number) {
+        return !isHappy(number);
+    }
+
     long takeNumber(String[] array, int index) {
         return Long.parseLong(array[index]);
     }

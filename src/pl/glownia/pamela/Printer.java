@@ -61,6 +61,8 @@ public class Printer implements PrintableProperties {
         System.out.printf("%12s: %s%n", "square", calculator.isPerfectSquare(number));
         System.out.printf("%12s: %s%n", "sunny", calculator.isSunny(number));
         System.out.printf("%12s: %s%n", "jumping", calculator.isJumping(number));
+        System.out.printf("%12s: %s%n", "happy", calculator.isHappy(number));
+        System.out.printf("%12s: %s%n", "sad", calculator.isSad(number));
     }
 
     @Override
@@ -127,6 +129,16 @@ public class Printer implements PrintableProperties {
                             return true;
                         }
                         break;
+                    case HAPPY:
+                        if (calculator.isHappy(beginNumber)) {
+                            return true;
+                        }
+                        break;
+                    case SAD:
+                        if (calculator.isSad(beginNumber)) {
+                            return true;
+                        }
+                        break;
                 }
             }
         }
@@ -146,7 +158,8 @@ public class Printer implements PrintableProperties {
     boolean isMutuallyExclusive(String userChoice, String[] array) {
         String mutuallyExclusive = null;
         for (int i = 3; i < array.length; i++) {
-            if (Properties.ODD.equals(userChoice) && Properties.EVEN.equals(array[i]) || Properties.EVEN.equals(userChoice) && Properties.ODD.equals(array[i]) || Properties.DUCK.equals(userChoice) && Properties.SPY.equals(array[i]) || Properties.SPY.equals(userChoice) && Properties.DUCK.equals(array[i]) || Properties.SUNNY.equals(userChoice) && Properties.SQUARE.equals(array[i]) || Properties.SQUARE.equals(userChoice) && Properties.SUNNY.equals(array[i])) {
+            if (Properties.ODD.equals(userChoice) && Properties.EVEN.equals(array[i]) || Properties.EVEN.equals(userChoice) && Properties.ODD.equals(array[i]) || Properties.DUCK.equals(userChoice) && Properties.SPY.equals(array[i]) || Properties.SPY.equals(userChoice) && Properties.DUCK.equals(array[i])
+                    || Properties.SUNNY.equals(userChoice) && Properties.SQUARE.equals(array[i]) || Properties.SQUARE.equals(userChoice) && Properties.SUNNY.equals(array[i]) || Properties.HAPPY.equals(userChoice) && Properties.SAD.equals(array[i]) || Properties.SAD.equals(userChoice) && Properties.HAPPY.equals(array[i])) {
                 mutuallyExclusive = array[i];
             }
         }
@@ -167,7 +180,7 @@ public class Printer implements PrintableProperties {
             }
             System.out.print("] are wrong.");
         }
-        System.out.println("Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
+        System.out.println("Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING, HAPPY, SAD]");
     }
 
     @Override
@@ -233,6 +246,8 @@ public class Printer implements PrintableProperties {
         numberProperties.append(calculator.isPerfectSquare(number) ? ", square" : "");
         numberProperties.append(calculator.isSunny(number) ? ", sunny" : "");
         numberProperties.append(calculator.isJumping(number) ? ", jumping" : "");
+        numberProperties.append(calculator.isHappy(number) ? ", happy" : "");
+        numberProperties.append(calculator.isSad(number) ? ", sad" : "");
         System.out.println(numberProperties);
     }
 
