@@ -1,6 +1,7 @@
 package pl.glownia.pamela;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Printer implements PrintableProperties {
@@ -49,17 +50,17 @@ public class Printer implements PrintableProperties {
 
     @Override
     public void printProperties(long number) {
-        System.out.println("Properties of " + number);
-        System.out.println("even:\t" + calculator.isEven(number));
-        System.out.println("odd:\t" + calculator.isOdd(number));
-        System.out.println("buzz:\t" + calculator.isBuzzNumber(number));
-        System.out.println("duck:\t" + calculator.isDuck(number));
-        System.out.println("palindromic:" + calculator.isPalindromic(number));
-        System.out.println("gapful:\t" + calculator.isGapful(number));
-        System.out.println("spy:\t" + calculator.isSpy(number));
-        System.out.println("square:\t" + calculator.isPerfectSquare(number));
-        System.out.println("sunny:\t" + calculator.isSunny(number));
-        System.out.println("jumping:\t" + calculator.isJumping(number));
+        System.out.printf(Locale.ENGLISH, "Properties of %,d\n", number);
+        System.out.printf("%12s: %s%n", "even", calculator.isEven(number));
+        System.out.printf("%12s: %s%n", "odd", calculator.isOdd(number));
+        System.out.printf("%12s: %s%n", "buzz", calculator.isBuzzNumber(number));
+        System.out.printf("%12s: %s%n", "duck", calculator.isDuck(number));
+        System.out.printf("%12s: %s%n", "palindromic", calculator.isPalindromic(number));
+        System.out.printf("%12s: %s%n", "gapful", calculator.isGapful(number));
+        System.out.printf("%12s: %s%n", "spy", calculator.isSpy(number));
+        System.out.printf("%12s: %s%n", "square", calculator.isPerfectSquare(number));
+        System.out.printf("%12s: %s%n", "sunny", calculator.isSunny(number));
+        System.out.printf("%12s: %s%n", "jumping", calculator.isJumping(number));
     }
 
     @Override
@@ -166,7 +167,7 @@ public class Printer implements PrintableProperties {
             }
             System.out.print("] are wrong.");
         }
-        System.out.println(" Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
+        System.out.println("Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING]");
     }
 
     @Override
@@ -175,45 +176,43 @@ public class Printer implements PrintableProperties {
         if (!(calculator.isNatural(beginNumber))) {
             System.out.println("The first parameter should be a natural number or zero. ");
         }
-        long counter = calculator.takeNumber(array, 1);
-        if (!(calculator.isNatural(counter))) {
+        long numberCounter = calculator.takeNumber(array, 1);
+        if (!(calculator.isNatural(numberCounter))) {
             System.out.println("The second parameter should be a natural number or zero. ");
         } else {
             if (array.length == 2) {
-                printProperties(beginNumber, counter);
+                printProperties(beginNumber, numberCounter);
             } else if (array.length > 2) {
-                while (counter > 0) {
-                    boolean flag;
+                while (numberCounter > 0) {
+                    boolean correct = true;
                     boolean mutuallyExclusive = false;
-                    int arrayElements = array.length - 2;
-                    int countProps = 0;
+                    int arrayElementsToValidate = array.length - 2;
+                    int countRightProps = 0;
                     ArrayList<String> wrongProperties = new ArrayList<>();
                     for (int j = 2; j < array.length; j++) {
                         String userChoice = calculator.takeProperty(array, j);
                         if (isWrongProperty(userChoice)) {
                             wrongProperties.add(userChoice);
-                        } else if (array.length >= 4) {
-                            if (isMutuallyExclusive(userChoice, array)) {
-                                mutuallyExclusive = true;
-                            }
+                        } else if (array.length >= 4 && isMutuallyExclusive(userChoice, array)) {
+                            mutuallyExclusive = true;
                         } else {
                             if (checkRightPropertiesToPrint(beginNumber, userChoice)) {
-                                countProps += 1;
-                                flag = true;
+                                countRightProps += 1;
                             } else {
-                                flag = false;
+                                correct = false;
                             }
-                            if (flag && arrayElements == countProps) {
-                                printShortProperties(beginNumber);
-                                counter--;
-                            }
-                            beginNumber++;
                         }
                     }
+                    if (correct && arrayElementsToValidate == countRightProps) {
+                        printShortProperties(beginNumber);
+                        numberCounter--;
+                    }
+                    beginNumber++;
+
                     if (wrongProperties.size() >= 1) {
                         printWrongProperties(wrongProperties);
                         break;
-                    } else if (mutuallyExclusive){
+                    } else if (mutuallyExclusive) {
                         break;
                     }
                 }
@@ -223,7 +222,7 @@ public class Printer implements PrintableProperties {
 
     void printShortProperties(long number) {
         //using ternary operator  (booleanExpression ? expression1 : expression2) => condensed if statement
-        StringBuilder numberProperties = new StringBuilder(number + " is ");
+        StringBuilder numberProperties = new StringBuilder(String.format(Locale.ENGLISH, "%,d", number) + " is ");
         numberProperties.append(calculator.isEven(number) ? "even" : "");
         numberProperties.append(calculator.isOdd(number) ? " odd" : "");
         numberProperties.append(calculator.isBuzzNumber(number) ? ", buzz" : "");

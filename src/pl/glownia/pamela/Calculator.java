@@ -3,11 +3,7 @@ package pl.glownia.pamela;
 public class Calculator {
 
     boolean isNatural(long number) {
-        if (number >= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return number >= 0;
     }
 
     boolean isEven(long number) {
