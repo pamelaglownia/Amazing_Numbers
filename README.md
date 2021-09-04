@@ -1,6 +1,5 @@
 # Amazing numbers ver. 1.0 #
 
-
 ### Description ###
 
 Simple project to verify properties of numbers like: 
@@ -14,12 +13,13 @@ Simple project to verify properties of numbers like:
 - spy,
 - square,
 - sunny.
+
 Project's tasks come from JetBrains Academy.
 
 ### Motivation ###
 
 Project was created to develop skills related to OOP.
-For me the most valuable concepts of this project were:
+The most valuable concepts of this project (for me) are:
 - basics of OOP,
 - interfaces,
 - enums,
